@@ -1,0 +1,1 @@
+java -jar target/moi-server.jar
