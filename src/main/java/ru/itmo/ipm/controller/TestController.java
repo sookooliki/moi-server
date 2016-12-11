@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @RestController
 @RequestMapping("api/test")
-public class Test {
+public class TestController {
     @RequestMapping(value = "/ping", method = RequestMethod.GET)
     public Ping ping() {
         Ping ping = new Ping();
