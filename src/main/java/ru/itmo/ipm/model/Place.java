@@ -5,6 +5,8 @@ package ru.itmo.ipm.model;
  */
 public class Place {
     private String resource;
+    private String latitude;
+    private String longitude;
 
     public String getResource() {
         return resource;
@@ -12,5 +14,21 @@ public class Place {
 
     public void setResource(String resource) {
         this.resource = resource;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 }
