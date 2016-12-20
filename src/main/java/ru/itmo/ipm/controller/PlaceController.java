@@ -12,6 +12,8 @@ import ru.itmo.ipm.service.IPlaceService;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by alexander on 10.12.16.
@@ -23,11 +25,16 @@ public class PlaceController {
     IPlaceService placeService;
 
     @RequestMapping(value = "getAll", method = RequestMethod.GET)
-    public List<Place> getAll(@RequestParam double latitude, @RequestParam double longitude, @RequestParam double radius) throws SQLException {
+    public Map<String, List<Place>> getAll(@RequestParam double latitude, @RequestParam double longitude, @RequestParam double radius, @RequestParam List<String> types) throws SQLException {
         Location location = new Location();
         location.setLatitude(latitude);
         location.setLongitude(longitude);
-        return placeService.getAll(location, radius);
+        List<PlaceType> typesList = types.stream().map(s -> {
+            PlaceType placeType = new PlaceType();
+            placeType.setResourceUrl(s);
+            return placeType;
+        }).collect(Collectors.toList());
+        return placeService.getAll(location, radius, typesList);
     }
 
     @RequestMapping(value = "getPlaceTypeTree", method = RequestMethod.GET)

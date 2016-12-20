@@ -9,6 +9,7 @@ public class Place {
     private Location location;
     private String description;
     private String thumbnail;
+    private PlaceType placeType;
 
     public String getResourceUrl() {
         return resourceUrl;
@@ -48,5 +49,13 @@ public class Place {
 
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    public PlaceType getPlaceType() {
+        return placeType;
+    }
+
+    public void setPlaceType(PlaceType placeType) {
+        this.placeType = placeType;
     }
 }

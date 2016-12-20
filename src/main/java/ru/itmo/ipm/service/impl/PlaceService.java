@@ -10,7 +10,7 @@ import ru.itmo.ipm.repository.IPlaceRepository;
 import ru.itmo.ipm.service.IPlaceService;
 
 import java.sql.SQLException;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.Math.*;
@@ -26,14 +26,30 @@ public class PlaceService implements IPlaceService {
     IPlaceRepository placeRepository;
 
     @Override
-    public List<Place> getAll(Location location, double radius) throws SQLException {
+    public Map<String, List<Place>> getAll(Location location, double radius, List<PlaceType> types) throws SQLException {
         double lat1 = location.getLatitude() - radius / L;
         double lat2 = location.getLatitude() + radius / L;
         double lon1 = location.getLongitude() - radius / abs(cos(toRadians(location.getLatitude())) * L);
         double lon2 = location.getLongitude() + radius / abs(cos(toRadians(location.getLatitude())) * L);
-        return placeRepository.getAll(lat1, lon1, lat2, lon2).stream()
+        List<Place> places = placeRepository.getAll(lat1, lon1, lat2, lon2, types).stream()
                 .filter(place -> LocationHelper.calcDistance(location, place.getLocation()) <= radius)
                 .collect(Collectors.toList());
+        return places.stream().collect(() -> new HashMap<String, List<Place>>(),
+                (map, place) -> {
+                    Optional<String> keyOptional = map.keySet().stream()
+                            .filter(s -> s.equals(place.getPlaceType().getResourceUrl()))
+                            .findAny();
+
+                    if (keyOptional.isPresent()) {
+                        List<Place> placeList = map.get(keyOptional.get());
+                        placeList.add(place);
+                    } else {
+                        List<Place> placeList = new ArrayList<Place>();
+                        placeList.add(place);
+                        map.put(place.getPlaceType().getResourceUrl(), placeList);
+                    }
+                }, (map, map2) -> {
+                });
     }
 
     @Override

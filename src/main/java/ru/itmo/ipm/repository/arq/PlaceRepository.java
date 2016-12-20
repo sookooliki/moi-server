@@ -25,11 +25,12 @@ public class PlaceRepository implements IPlaceRepository {
     public PrefixMapping prefixMapping;
 
     @Override
-    public List<Place> getAll(double lat1, double lon1, double lat2, double lon2) throws SQLException {
+    public List<Place> getAll(double lat1, double lon1, double lat2, double lon2, List<PlaceType> types) throws SQLException {
         List<Place> places = new ArrayList<>();
         String queryString =
-                "SELECT ?resourceUrl ?lat ?long ?title ?description ?thumbnail WHERE{\n" +
-                        "?resourceUrl rdf:type <http://dbpedia.org/ontology/ArchitecturalStructure> .\n" +
+                "SELECT ?resourceUrl ?lat ?long ?title ?description ?thumbnail ?type WHERE{\n" +
+                        "?resourceUrl rdf:type  ?type.\n" +
+                        "FILTER(?type IN (" + types.stream().map(placeType -> "<" + placeType.getResourceUrl() + ">").reduce((s, s2) -> s + ", " + s2).get() + ")) \n" +
                         "?resourceUrl geo:lat ?lat .\n" +
                         "?resourceUrl geo:long ?long .\n" +
                         "FILTER(\n" +
@@ -60,6 +61,9 @@ public class PlaceRepository implements IPlaceRepository {
                 place.setLocation(new Location());
                 place.getLocation().setLatitude(solution.getLiteral("lat").getDouble());
                 place.getLocation().setLongitude(solution.getLiteral("long").getDouble());
+
+                place.setPlaceType(new PlaceType());
+                place.getPlaceType().setResourceUrl(solution.getResource("type").getURI());
 
                 places.add(place);
             }
