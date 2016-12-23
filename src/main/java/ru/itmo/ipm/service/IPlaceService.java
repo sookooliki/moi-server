@@ -14,5 +14,5 @@ import java.util.Map;
 public interface IPlaceService {
     Map<String, List<Place>> getAll(Location location, double radius, List<PlaceType> types) throws SQLException;
 
-    PlaceType getPlaceTypeTree();
+    List<PlaceType> getPlaceTypeTree();
 }

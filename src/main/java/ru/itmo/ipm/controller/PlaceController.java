@@ -38,7 +38,7 @@ public class PlaceController {
     }
 
     @RequestMapping(value = "getPlaceTypeTree", method = RequestMethod.GET)
-    public PlaceType getPlaceTypeTree() {
+    public List<PlaceType> getPlaceTypeTree() {
         return placeService.getPlaceTypeTree();
     }
 }

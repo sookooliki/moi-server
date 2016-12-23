@@ -53,9 +53,45 @@ public class PlaceService implements IPlaceService {
     }
 
     @Override
-    public PlaceType getPlaceTypeTree() {
-        List<PlaceType> placeTypes = placeRepository.getAllTypes();
+    public List<PlaceType> getPlaceTypeTree() {
+        List<PlaceType> types = placeRepository.getAllTypes();
+        List<PlaceType> finalTypes = types;
+        types = types.stream()
+                .filter(placeType -> finalTypes.stream()
+                        .anyMatch(placeType1 -> placeType.getParentTypeUrl().equals(placeType1.getResourceUrl())))
+                .collect(Collectors.toList());
+        return buildTypesTrees(types);
+    }
 
-        return null;
+    private List<PlaceType> buildTypesTrees(List<PlaceType> types) {
+        List<String> parentsUrls = types.stream()
+                .map(placeType -> placeType.getParentTypeUrl())
+                .distinct()
+                .collect(Collectors.toList());
+
+        List<PlaceType> children = types.stream()
+                .filter(placeType -> {
+                    long count = parentsUrls.stream()
+                            .filter(s -> s.equals(placeType.getResourceUrl()))
+                            .count();
+                    return count == 0;
+                })
+                .collect(Collectors.toList());
+
+        if (children.isEmpty() || parentsUrls.stream().count() <= 1)
+            return types;
+
+        children.forEach(childType -> {
+            Optional<PlaceType> optionalFirstParent = types.stream()
+                    .filter(placeType -> placeType.getResourceUrl().equals(childType.getParentTypeUrl())).findFirst();
+            if (optionalFirstParent.isPresent()) {
+                if (optionalFirstParent.get().getSubTypes() == null) {
+                    optionalFirstParent.get().setSubTypes(new ArrayList<>());
+                }
+                optionalFirstParent.get().getSubTypes().add(childType);
+                types.remove(childType);
+            }
+        });
+        return buildTypesTrees(types);
     }
 }
