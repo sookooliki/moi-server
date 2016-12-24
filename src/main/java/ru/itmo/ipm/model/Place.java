@@ -8,7 +8,9 @@ public class Place {
     private String title;
     private Location location;
     private String description;
-    private String thumbnail;
+    private String thumbnailSmall;
+    private String thumbnailMiddle;
+    private String thumbnailLarge;
     private PlaceType placeType;
 
     public String getResourceUrl() {
@@ -43,12 +45,28 @@ public class Place {
         this.description = description;
     }
 
-    public String getThumbnail() {
-        return thumbnail;
+    public String getThumbnailSmall() {
+        return thumbnailSmall;
     }
 
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
+    public void setThumbnailSmall(String thumbnailSmall) {
+        this.thumbnailSmall = thumbnailSmall;
+    }
+
+    public String getThumbnailMiddle() {
+        return thumbnailMiddle;
+    }
+
+    public void setThumbnailMiddle(String thumbnailMiddle) {
+        this.thumbnailMiddle = thumbnailMiddle;
+    }
+
+    public String getThumbnailLarge() {
+        return thumbnailLarge;
+    }
+
+    public void setThumbnailLarge(String thumbnailLarge) {
+        this.thumbnailLarge = thumbnailLarge;
     }
 
     public PlaceType getPlaceType() {

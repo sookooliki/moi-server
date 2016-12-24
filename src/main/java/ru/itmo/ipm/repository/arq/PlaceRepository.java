@@ -4,11 +4,15 @@ import org.apache.jena.query.*;
 import org.apache.jena.shared.PrefixMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ru.itmo.ipm.helper.CommonHelper;
 import ru.itmo.ipm.model.Location;
 import ru.itmo.ipm.model.Place;
 import ru.itmo.ipm.model.PlaceType;
 import ru.itmo.ipm.repository.IPlaceRepository;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +59,26 @@ public class PlaceRepository implements IPlaceRepository {
                 place.setResourceUrl(solution.getResource("resourceUrl").getURI());
                 place.setTitle(solution.getLiteral("title").getString());
                 place.setDescription(solution.getLiteral("description").getString());
-                place.setThumbnail(solution.getResource("thumbnail").getURI());
+
+                String thumbnailUrl = solution.getResource("thumbnail").getURI();
+
+                try {
+                    place.setThumbnailSmall(CommonHelper.getThumbnailUrl(thumbnailUrl, 300).toString());
+                } catch (URISyntaxException e) {
+                    place.setThumbnailSmall(thumbnailUrl);
+                }
+
+                try {
+                    place.setThumbnailMiddle(CommonHelper.getThumbnailUrl(thumbnailUrl, 600).toString());
+                } catch (URISyntaxException e) {
+                    place.setThumbnailMiddle(thumbnailUrl);
+                }
+
+                try {
+                    place.setThumbnailLarge(CommonHelper.getThumbnailUrl(thumbnailUrl, 900).toString());
+                } catch (URISyntaxException e) {
+                    place.setThumbnailLarge(thumbnailUrl);
+                }
 
                 place.setLocation(new Location());
                 place.getLocation().setLatitude(solution.getLiteral("avgLat").getDouble());
