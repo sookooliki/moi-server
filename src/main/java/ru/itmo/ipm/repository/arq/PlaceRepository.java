@@ -42,9 +42,9 @@ public class PlaceRepository implements IPlaceRepository {
                         "(?long > \"" + lon1 + "\"^^xsd:float) && \n" +
                         "(?long < \"" + lon2 + "\"^^xsd:float)) \n" +
                         "?resourceUrl rdfs:label ?title .\n" +
-                        "FILTER(LANG(?title) = \"\" || LANG(?title) = \"ru\")\n" +
+                        "FILTER(LANG(?title) = \"\" || LANG(?title) = \"en\")\n" +
                         "?resourceUrl rdfs:comment ?description .\n" +
-                        "FILTER(LANG(?description) = \"\" || LANG(?description) = \"ru\")\n" +
+                        "FILTER(LANG(?description) = \"\" || LANG(?description) = \"en\")\n" +
                         "?resourceUrl dbo:thumbnail ?thumbnail .\n" +
                         "} group by ?resourceUrl ?type ?title ?description ?thumbnail \n";
         Query query = QueryFactory.create();
