@@ -1,4 +1,4 @@
-package ru.itmo.ipm.controller;
+package ru.itmo.ipm.controller.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
