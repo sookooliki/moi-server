@@ -101,7 +101,7 @@ public class PlaceRepository implements IPlaceRepository {
                 "?type rdfs:subClassOf* <http://dbpedia.org/ontology/ArchitecturalStructure> .\n" +
                 "?type rdfs:subClassOf ?parentType .\n" +
                 "?type rdfs:label ?title .\n" +
-                "FILTER(LANG(?title)=\"\" || LANG(?title)=\"en\" || LANG(?title)=\"ru\")\n" +
+                "FILTER( LANG(?title)=\"\" || LANG(?title)=\"en\" )\n" +
                 "}";
         Query query = QueryFactory.create(queryString);
         try (QueryExecution queryExecution = QueryExecutionFactory.sparqlService(SERVICE_ENDPOINT, query)) {
