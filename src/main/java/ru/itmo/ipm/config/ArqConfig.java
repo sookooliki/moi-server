@@ -19,6 +19,7 @@ public class ArqConfig {
         prefixMapping.setNsPrefix("dbp", "http://dbpedia.org/property/");
         prefixMapping.setNsPrefix("xsd", "http://www.w3.org/2001/XMLSchema#");
         prefixMapping.setNsPrefix("dbo", "http://dbpedia.org/ontology/");
+        prefixMapping.setNsPrefix("owl", "http://www.w3.org/2002/07/owl#");
         return prefixMapping;
     }
 }

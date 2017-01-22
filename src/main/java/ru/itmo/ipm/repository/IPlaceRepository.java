@@ -13,4 +13,6 @@ public interface IPlaceRepository {
     List<Place> getAll(double lat1, double lon1, double lat2, double lon2, List<PlaceType> types) throws SQLException;
 
     List<PlaceType> getAllTypes();
+
+    Place getExternalData(Place place);
 }

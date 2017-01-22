@@ -33,7 +33,10 @@ public class PlaceService implements IPlaceService {
         double lon2 = location.getLongitude() + radius / abs(cos(toRadians(location.getLatitude())) * L);
         List<Place> places = placeRepository.getAll(lat1, lon1, lat2, lon2, types).stream()
                 .filter(place -> LocationHelper.calcDistance(location, place.getLocation()) <= radius)
+                .parallel()
+                .map(place -> placeRepository.getExternalData(place))
                 .collect(Collectors.toList());
+
         return places.stream().collect(() -> new HashMap<String, List<Place>>(),
                 (map, place) -> {
                     Optional<String> keyOptional = map.keySet().stream()

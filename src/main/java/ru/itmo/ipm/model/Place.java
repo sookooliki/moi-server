@@ -12,6 +12,9 @@ public class Place {
     private String thumbnailMiddle;
     private String thumbnailLarge;
     private PlaceType placeType;
+    private String sameAs;
+    private String wikiTitle;
+    private String wikiDescription;
 
     public String getResourceUrl() {
         return resourceUrl;
@@ -75,5 +78,29 @@ public class Place {
 
     public void setPlaceType(PlaceType placeType) {
         this.placeType = placeType;
+    }
+
+    public String getSameAs() {
+        return sameAs;
+    }
+
+    public void setSameAs(String sameAs) {
+        this.sameAs = sameAs;
+    }
+
+    public void setWikiTitle(String wikiTitle) {
+        this.wikiTitle = wikiTitle;
+    }
+
+    public String getWikiTitle() {
+        return wikiTitle;
+    }
+
+    public void setWikiDescription(String wikiDescription) {
+        this.wikiDescription = wikiDescription;
+    }
+
+    public String getWikiDescription() {
+        return wikiDescription;
     }
 }
